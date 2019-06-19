@@ -111,6 +111,7 @@ private:
 
     bool ProcessIncludesMSCL( const char * output, uint32_t outputSize );
     bool ProcessIncludesWithPreProcessor( Job * job );
+    void WriteIncludesToFile() const;
 
     const AString & GetCacheName( Job * job ) const;
     bool RetrieveFromCache( Job * job );

@@ -242,6 +242,11 @@ FBuildOptions::OptionsResult FBuildOptions::ProcessCommandLine( int argc, char *
                 m_AllowLocalRace = false;
                 continue;
             }
+            else if (thisArg == "-writeincludes")
+            {
+                m_WriteIncludes = true;
+                continue;
+            }
             else if ( thisArg == "-nooutputbuffering" )
             {
                 // this doesn't do anything any more

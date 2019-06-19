@@ -370,7 +370,7 @@ ObjectNode::~ObjectNode()
 Node::BuildResult ObjectNode::DoBuildWithPreProcessor( Job * job, bool useDeoptimization, bool useCache, bool useSimpleDist )
 {
     Args fullArgs;
-    const bool showIncludes( false );
+    const bool showIncludes( GetFlag( FLAG_MSVC ) ? true : false );
     const bool finalize( true );
     Pass pass = useSimpleDist ? PASS_PREP_FOR_SIMPLE_DISTRIBUTION : PASS_PREPROCESSOR_ONLY;
     if ( !BuildArgs( job, fullArgs, pass, useDeoptimization, showIncludes, finalize ) )
@@ -754,6 +754,8 @@ bool ObjectNode::ProcessIncludesMSCL( const char * output, uint32_t outputSize )
         parser.SwapIncludes( m_Includes );
     }
 
+    WriteIncludesToFile();
+
     FLOG_VERBOSE( "Process Includes:\n - File: %s\n - Time: %u ms\n - Num : %u", m_Name.Get(), uint32_t( t.GetElapsedMS() ), uint32_t( m_Includes.GetSize() ) );
 
     return true;
@@ -808,9 +810,36 @@ bool ObjectNode::ProcessIncludesWithPreProcessor( Job * job )
         parser.SwapIncludes( m_Includes );
     }
 
+    WriteIncludesToFile();
+
     FLOG_VERBOSE( "Process Includes:\n - File: %s\n - Time: %u ms\n - Num : %u", m_Name.Get(), uint32_t( t.GetElapsedMS() ), uint32_t( m_Includes.GetSize() ) );
 
     return true;
+}
+
+// ProcessIncludesWithPreProcessor
+//------------------------------------------------------------------------------
+void ObjectNode::WriteIncludesToFile() const
+{
+    if ( FBuild::Get().GetOptions().m_WriteIncludes )
+    {
+        AString fileName;
+        fileName = m_Name;
+        PathUtils::StripFileExtension( fileName );
+        fileName += ".txt";
+
+        FileStream fs;
+        if ( fs.Open( fileName.Get(), FileStream::WRITE_ONLY ) == true )
+        {
+            for ( Array< AString >::ConstIter it = m_Includes.Begin(); it != m_Includes.End(); it++ )
+            {
+              AString include;
+              include = *it;
+              include += "\r\n";
+              fs.Write( include.Get(), include.GetLength() );
+            }
+        }
+    }
 }
 
 // LoadRemote
