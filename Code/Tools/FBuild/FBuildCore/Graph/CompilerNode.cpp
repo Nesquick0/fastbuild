@@ -30,6 +30,7 @@ REFLECT_NODE_BEGIN( CompilerNode, Node, MetaNone() )
     REFLECT_ARRAY( m_Environment,   "Environment",          MetaOptional() )
     REFLECT( m_UseLightCache,       "UseLightCache_Experimental", MetaOptional() )
     REFLECT( m_UseRelativePaths,    "UseRelativePaths_Experimental", MetaOptional() )
+    REFLECT( m_WriteInclude,        "WriteInclude", MetaOptional() )
 
     // Internal
     REFLECT( m_CompilerFamilyEnum,  "CompilerFamilyEnum",   MetaHidden() )
@@ -49,6 +50,7 @@ CompilerNode::CompilerNode()
     , m_SimpleDistributionMode( false )
     , m_UseLightCache( false )
     , m_UseRelativePaths( false )
+    , m_WriteInclude( false )
     , m_EnvironmentString( nullptr )
 {
 }

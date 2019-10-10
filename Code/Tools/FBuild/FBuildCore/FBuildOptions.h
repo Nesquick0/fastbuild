@@ -87,7 +87,6 @@ public:
     bool        m_NoSummaryOnError                  = false;
     bool        m_GenerateReport                    = false;
     bool        m_EnableMonitor                     = false;
-    bool        m_WriteIncludes                     = false;
 
     // DB loading/saving
     bool        m_SaveDBOnCompletion                = false;

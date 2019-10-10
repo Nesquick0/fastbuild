@@ -821,7 +821,7 @@ bool ObjectNode::ProcessIncludesWithPreProcessor( Job * job )
 //------------------------------------------------------------------------------
 void ObjectNode::WriteIncludesToFile() const
 {
-    if ( FBuild::Get().GetOptions().m_WriteIncludes )
+    if ( GetCompiler() && GetCompiler()->GetWriteInclude() )
     {
         AString fileName;
         fileName = m_Name;
